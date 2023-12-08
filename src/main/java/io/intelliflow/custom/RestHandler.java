@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.intelliflow.service.KeyVaultService;
 import io.quarkus.logging.Log;
 import org.apache.http.HttpEntity;
@@ -124,7 +125,9 @@ public class RestHandler implements KogitoWorkItemHandler {
             bodyStr = (String) body;
             Log.info("Body is string");
         } else if (body != null) {
-            bodyStr = new Gson().toJson(body);
+                Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+                bodyStr = gson.toJson(body);
+                bodyStr = bodyStr.replaceAll("\u003d","=");
         }
         String dataModelVariable = "";
         if (body != null) {

@@ -57,30 +57,30 @@ public class BaseAppLifecycle {
             workFlowJson = IOUtils.toString(in, StandardCharsets.UTF_8);
             Log.info("Workflow descriptor loaded");
 
-//            HttpRequest postRequest = HttpRequest.newBuilder()
-//                    .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(getSchemaStructure())))
-//                    .setHeader("Content-Type", "application/json")
-//                    .uri(URI.create("http://" + serverUrl + "/register/" + workspace + "/" + miniApp))
-//                    .build();
-//
-//            HttpResponse<String> response = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
-//            if (response.statusCode() >= 200 && response.statusCode() <= 300) {
-//                Log.info("Schema Registration was success!!");
-//            } else {
-//                Log.error("Schema Registration Failed!!");
-//                throw new CustomException("Schema Registration Failed!!",Status.INTERNAL_SERVER_ERROR);
-//            }
+            HttpRequest postRequest = HttpRequest.newBuilder()
+                    .POST(HttpRequest.BodyPublishers.ofString(String.valueOf(getSchemaStructure())))
+                    .setHeader("Content-Type", "application/json")
+                    .uri(URI.create("http://" + serverUrl + "/register/" + workspace + "/" + miniApp))
+                    .build();
+
+            HttpResponse<String> response = httpClient.send(postRequest, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() >= 200 && response.statusCode() <= 300) {
+                Log.info("Schema Registration was success!!");
+            } else {
+                Log.error("Schema Registration Failed!!");
+                throw new CustomException("Schema Registration Failed!!","500");
+            }
 
         } catch (NullPointerException e) {
             e.printStackTrace();
             Log.error("No workflow Descriptor File Available for App. Discouraging the use of form content API");
-            throw new CustomException("No workflow Descriptor File Available for App. Discouraging the use of form content API", String.valueOf(Status.INTERNAL_SERVER_ERROR.getCode()));
+            throw new CustomException("No workflow Descriptor File Available for App. Discouraging the use of form content API", "500");
         }
-//        catch (InterruptedException e) {
-//            e.printStackTrace();
-//            Log.error("Schema API Invocation Failed. Database not initialized.");
-//            throw new CustomException("Schema API Invocation Failed. Database not initialized.",Status.INTERNAL_SERVER_ERROR);
-//        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+            Log.error("Schema API Invocation Failed. Database not initialized.");
+            throw new CustomException("Schema API Invocation Failed. Database not initialized.","500");
+        }
     }
 
     void onStop(@Observes ShutdownEvent ev) {
@@ -125,7 +125,7 @@ public class BaseAppLifecycle {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    throw new CustomException("some IO file issue",String.valueOf(Status.INTERNAL_SERVER_ERROR.getCode()));
+                    throw new CustomException("some IO file issue","500");
                 }
 
             }
@@ -195,7 +195,7 @@ public class BaseAppLifecycle {
                     entityObj.put(modelName, nameObj);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    throw new CustomException("some IO file issue",String.valueOf(Status.INTERNAL_SERVER_ERROR.getCode()));
+                    throw new CustomException("some IO file issue","500");
                 }
             }
             if(complexTypeList.size() > 0) {
@@ -245,10 +245,10 @@ public class BaseAppLifecycle {
         } catch (URISyntaxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            throw new CustomException("a string could not be parsed as a URI reference",String.valueOf(Status.INTERNAL_SERVER_ERROR.getCode()));
+            throw new CustomException("a string could not be parsed as a URI reference","500");
         } catch (IOException e) {
             e.printStackTrace();
-            throw new CustomException("some IO file issue",String.valueOf(Status.INTERNAL_SERVER_ERROR.getCode()));
+            throw new CustomException("some IO file issue","500");
         }
         return files;
     }
@@ -310,7 +310,7 @@ public class BaseAppLifecycle {
                 complexTypeObj.put(complexElement, nameObj);
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new CustomException("some IO file issue",String.valueOf(Status.INTERNAL_SERVER_ERROR.getCode()));
+                throw new CustomException("some IO file issue","500");
             }
         }
         return complexTypeObj;

@@ -68,18 +68,18 @@ public class BaseAppLifecycle {
                 Log.info("Schema Registration was success!!");
             } else {
                 Log.error("Schema Registration Failed!!");
-                throw new CustomException("Schema Registration Failed!!","500");
+                // throw new CustomException("Schema Registration Failed!!","500");
             }
 
         } catch (NullPointerException e) {
             e.printStackTrace();
             Log.error("No workflow Descriptor File Available for App. Discouraging the use of form content API");
-            throw new CustomException("No workflow Descriptor File Available for App. Discouraging the use of form content API", "500");
+            // throw new CustomException("No workflow Descriptor File Available for App. Discouraging the use of form content API", "500");
         }
         catch (InterruptedException e) {
             e.printStackTrace();
             Log.error("Schema API Invocation Failed. Database not initialized.");
-            throw new CustomException("Schema API Invocation Failed. Database not initialized.","500");
+            // throw new CustomException("Schema API Invocation Failed. Database not initialized.","500");
         }
     }
 
@@ -125,7 +125,7 @@ public class BaseAppLifecycle {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    throw new CustomException("some IO file issue","500");
+                    // throw new CustomException("some IO file issue","500");
                 }
 
             }
@@ -195,7 +195,7 @@ public class BaseAppLifecycle {
                     entityObj.put(modelName, nameObj);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    throw new CustomException("some IO file issue","500");
+                    // throw new CustomException("some IO file issue","500");
                 }
             }
             if(complexTypeList.size() > 0) {
@@ -245,10 +245,10 @@ public class BaseAppLifecycle {
         } catch (URISyntaxException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            throw new CustomException("a string could not be parsed as a URI reference","500");
+            // throw new CustomException("a string could not be parsed as a URI reference","500");
         } catch (IOException e) {
             e.printStackTrace();
-            throw new CustomException("some IO file issue","500");
+            // throw new CustomException("some IO file issue","500");
         }
         return files;
     }
@@ -310,7 +310,7 @@ public class BaseAppLifecycle {
                 complexTypeObj.put(complexElement, nameObj);
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new CustomException("some IO file issue","500");
+                // throw new CustomException("some IO file issue","500");
             }
         }
         return complexTypeObj;

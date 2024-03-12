@@ -258,7 +258,7 @@ public class DataOperations implements KogitoWorkItemHandler {
 
                         if (dataField.get(dataModelObject) != null
                                 && dataField.getName() != "serialVersionUID"
-                                && !dataType.equals("java.util.List") && !dataType.contains("io.intelliflow.generated.models")) {
+                                && !dataType.equals("java.util.List") && !dataType.contains("io."+workspace+".generated.models")) {
                             // Constructing the Query
                             if (queryFlag == 0) {
                                 // Adding the first field
@@ -387,7 +387,7 @@ public class DataOperations implements KogitoWorkItemHandler {
 //                            client.getObjectFactory().newPrimitiveProperty(
 //                                    dataField.getName(), value));
 
-                    if(dataType.contains("io.intelliflow.generated.models")){
+                    if(dataType.contains("io."+workspace+".generated.models")){
                         ClientComplexValue innerObj = buildComplexEntity(dataObject);
                         newEntity.getProperties()
                                 .add(new ClientPropertyImpl(dataField.getName(), innerObj));
@@ -480,7 +480,7 @@ public class DataOperations implements KogitoWorkItemHandler {
                                     .buildString(dataObject.toString());
                         }
                         // Adding the value to be updated to the Entity
-                        if(dataType.contains("io.intelliflow.generated.models")){
+                        if(dataType.contains("io."+workspace+".generated.models")){
                             ClientComplexValue innerObj = buildComplexEntity(dataObject);
                             newEntity.getProperties()
                                     .add(new ClientPropertyImpl(dataField.getName(), innerObj));

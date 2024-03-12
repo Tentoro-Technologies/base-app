@@ -147,7 +147,7 @@ public class BaseAppLifecycle {
                     );
                     JSONArray metaArray = JsonPath.parse(metaContent).read("$.*");
                     JSONObject entityType = new JSONObject();
-                    entityType.put("entityType", "io.intelliflow.generated.models."+modelName);
+                    entityType.put("entityType", "io."+workspace+".generated.models."+modelName);
                     entitySets.put(
                             //Character.toLowerCase(modelName.charAt(0)) + modelName.substring(1),
                             Character.toUpperCase(modelName.charAt(0)) + modelName.substring(1),
@@ -156,7 +156,7 @@ public class BaseAppLifecycle {
                     if(maps.size() > 0){
                         modelObj.put("namespace", (String) ((LinkedHashMap) maps.get(0)).get("nameSpace"));
                     } else {
-                        modelObj.put("namespace", "io.intelliflow.generated.models");
+                        modelObj.put("namespace", "io."+workspace+".generated.models");
                     }
                     JSONObject nameObj = new JSONObject();
                     for(int i =0; i < metaArray.size(); i++) {
@@ -172,12 +172,12 @@ public class BaseAppLifecycle {
                             typeObj.put("type", type);
                         } else {
                             if(!((boolean) ((LinkedHashMap) metaArray.get(i)).get("isCollection"))){
-                                String type = "io.intelliflow.generated.models." + ((LinkedHashMap) metaArray.get(i)).get("type");
+                                String type = "io."+workspace+".generated.models." + ((LinkedHashMap) metaArray.get(i)).get("type");
                                 String relationship = type+"_"+modelName;
                                 typeObj.put("type", type);
                                 typeObj.put("relationship",relationship);
                             }else {
-                                String type = "Collection(io.intelliflow.generated.models." + ((String) ((LinkedHashMap) metaArray.get(i)).get("type")) + ")";
+                                String type = "Collection(io."+workspace+".generated.models." + ((String) ((LinkedHashMap) metaArray.get(i)).get("type")) + ")";
                                 typeObj.put("type", type);
 
                                 //Create a lis of Complex types required
@@ -301,7 +301,7 @@ public class BaseAppLifecycle {
                             typeObj.put("type", type);
                         } else {
                             //TODO:All non primitve are now considered as Collection, need to check NavigationProperty
-                            String type = "Collection(io.intelliflow.generated.models." +((String) ((LinkedHashMap) metaArray.get(i)).get("type")) + ")";
+                            String type = "Collection(io."+workspace+".generated.models." +((String) ((LinkedHashMap) metaArray.get(i)).get("type")) + ")";
                             typeObj.put("type", type);
                         }
                         nameObj.put(name, typeObj);

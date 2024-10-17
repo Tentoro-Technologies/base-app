@@ -35,6 +35,7 @@ public class CustomWorkItemHandlerConfig extends DefaultWorkItemHandlerConfig {
         register("Rest Operation", new RestHandler(keyVaultService));
         register("Soap Operation", new SoapHandler(keyVaultService));
         register("SQL Operation", new JDBCHandler(keyVaultService));
+        register("Generate Document", new DocTemplate());
         register("Email", new EmailHandler());
         register("CommunicationTask" , new CommunicationTaskHandler(routerService,objectTransformer,mongodbClient));
     }

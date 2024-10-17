@@ -20,6 +20,8 @@ public class DocTemplate implements KogitoWorkItemHandler {
 
     private final ObjectMapper objectMapper;
     private String templateURL;
+    private String workspace;
+    
 
     public DocTemplate() {
         objectMapper = new ObjectMapper();
@@ -29,6 +31,7 @@ public class DocTemplate implements KogitoWorkItemHandler {
         try {
             appProps.load(inputStream);
             templateURL = appProps.get("app.urls.templateURL").toString(); 
+            workspace = properties.get("ifs.app.workspace").toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,7 +51,7 @@ public class DocTemplate implements KogitoWorkItemHandler {
             String bodyStr = objectMapper.writeValueAsString(body);
             HttpRequest request = HttpRequest.newBuilder(new URI(apiUrl))
                     .POST(HttpRequest.BodyPublishers.ofString(bodyStr, StandardCharsets.UTF_8))
-                    .header("Content-Type", "application/json")
+                    .header("Content-Type", "application/json").header("Workspace", workspace)
                     .build();
             HttpClient client = HttpClient.newHttpClient();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

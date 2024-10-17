@@ -57,10 +57,17 @@ public class DocTemplate implements KogitoWorkItemHandler {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             Log.info("Response: " + response.body());
             Log.info("Status Code: " + response.statusCode());
-            Map<String, Object> results = new HashMap<>();
-            results.put("Response", response.body());
-            results.put("StatusCode", response.statusCode());
-            manager.completeWorkItem(workItem.getStringId(), results);
+        String responseBody = response.body();
+        Map<String, Object> responseMap = objectMapper.readValue(responseBody, Map.class); 
+
+        String docPath = (String) responseMap.get("FileName");
+
+        Map<String, Object> results = new HashMap<>();
+        results.put("Response", responseBody);
+        results.put("StatusCode", response.statusCode());
+        results.put("DocumentPath", docPath);  // Add extracted field to results
+
+        manager.completeWorkItem(workItem.getStringId(), results);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,3 +80,4 @@ public class DocTemplate implements KogitoWorkItemHandler {
         // Handle abort logic if needed
     }
 }
+
